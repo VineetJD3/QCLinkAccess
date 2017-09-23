@@ -1,21 +1,44 @@
 <div class="login">
-<form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)" autocomplete="off">
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)" autocomplete="off">
   <div ngModelGroup="credentials">
     <div class="form-group">
-      <input type="text" placeholder="Username" #userNameRef="ngModel" required name="userName" [(ngModel)]="userName" class="form-control"/>
-      <div [hidden]="userNameRef.valid || userNameRef.pristine" class="alert alert-danger">
-        Please enter Username
+      <input type="text" placeholder="Username" #userNameRef="ngModel" minlength="3" required name="userName" [(ngModel)]="userName" class="form-control"/>
+      <div *ngIf="userNameRef.errors && (userNameRef.dirty || userNameRef.touched)" class="alert alert-danger" style="width :inherit;">
+        <div [hidden]="!userNameRef.errors.required">
+          Please enter Username.
+        </div>
+        <div [hidden]="!userNameRef.errors.minlength">
+          Please enter atleast 3 characters.
+        </div>
       </div>
+      
     </div>
     <div class="form-group">
       <input type="password" placeholder="Password" #passwordRef="ngModel" required name="password" [(ngModel)]="password" class="form-control"/>
-      <div [hidden]="passwordRef.valid || passwordRef.pristine" class="alert alert-danger">
-        Please enter Password
+      <div *ngIf="passwordRef.errors && (passwordRef.dirty || passwordRef.touched)" class="alert alert-danger" style="width :inherit;">
+        <div [hidden]="!passwordRef.errors.required">
+          Please enter Username.
+        </div>
       </div>
     </div>
   </div>
 
     <button type="submit" class="btn btn-primary">Log In</button>
 </form>
+
+<!--<form [formGroup] = "userForm" (ngSubmit)="onSubmit(userForm.value)">
+
+  <div formGroupName = "credentials">
+    <div class="form-group">
+      <input type="text" placeholder="Username" class="form-control" formControlName = "userName"/>
+    </div>
+  
+    <div class="form-group">
+      <input type="password" placeholder="Password" class="form-control" formControlName = "password"/>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Log In</button>
+</form>-->
 </div>
 <div class="shadow"></div>
